@@ -27,26 +27,25 @@ public class MyRepository <T>{
     }
 
     public T findOne(long id) {
-        Pair<Long,T> one = data.stream().filter(p -> p.getFirst() == id).findFirst().orElse(null);
-        if(one == null){
-            throw new MyDataBaseNotFoundException(id);
-        }
-        return one.getSecond();
+        return find(id).getSecond();
     }
 
     public void update(long id, T entity){
-        Pair<Long,T> one = data.stream().filter(p -> p.getFirst() == id).findFirst().orElse(null);
+        Pair<Long,T> one = find(id);
         int index = data.lastIndexOf(one);
-        try {
-            data.set(index, Pair.of(one.getFirst(), entity));
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
+        data.set(index, Pair.of(one.getFirst(), entity));
     }
 
     public boolean exist(long id){
         return data.stream().anyMatch(p -> p.getFirst() == id);
+    }
+
+    private Pair<Long, T> find(long id){
+        Pair<Long,T> one = data.stream().filter(p -> p.getFirst() == id).findFirst().orElse(null);
+        if(one == null){
+            throw new MyDataBaseNotFoundException(id);
+        }
+        return one;
     }
 
 }

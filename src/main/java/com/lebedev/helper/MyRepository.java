@@ -14,12 +14,13 @@ public class MyRepository <T>{
         data = new ArrayList<>();
     }
 
-    public void save(List<T> list){
-        data.addAll(list.stream().map(p -> Pair.of(id++, p)).collect(Collectors.toList()));
-    }
+//    public void save(List<T> list){
+//        data.addAll(list.stream().map(p -> Pair.of(id++, p)).collect(Collectors.toList()));
+//    }
 
-    public void save(T entity){
+    public T save(T entity){
         data.add(Pair.of(id++, entity));
+        return entity;
     }
 
     public List<T> findAll(){
@@ -30,10 +31,17 @@ public class MyRepository <T>{
         return find(id).getSecond();
     }
 
-    public void update(long id, T entity){
+    public T update(long id, T entity){
         Pair<Long,T> one = find(id);
         int index = data.lastIndexOf(one);
         data.set(index, Pair.of(one.getFirst(), entity));
+        return entity;
+    }
+
+    public void delete(long id){
+        Pair<Long,T> one = find(id);
+        int index = data.lastIndexOf(one);
+        data.remove(index);
     }
 
     public boolean exist(long id){
@@ -47,5 +55,6 @@ public class MyRepository <T>{
         }
         return one;
     }
+
 
 }

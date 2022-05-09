@@ -1,11 +1,13 @@
 package com.lebedev.helper;
 
 import com.lebedev.exception.MyDataBaseNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class MyRepository <T>{
     List<Pair<Long,T>> data;
     private long id = 0;
@@ -13,10 +15,6 @@ public class MyRepository <T>{
     public MyRepository() {
         data = new ArrayList<>();
     }
-
-//    public void save(List<T> list){
-//        data.addAll(list.stream().map(p -> Pair.of(id++, p)).collect(Collectors.toList()));
-//    }
 
     public T save(T entity){
         data.add(Pair.of(id++, entity));
@@ -55,6 +53,4 @@ public class MyRepository <T>{
         }
         return one;
     }
-
-
 }
